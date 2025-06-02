@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Alice's Magic Academy</title>
+  <style>
+    body {
+      font-family: 'Georgia', serif;
+      background-color: #fdf6e3;
+      background-image: url('https://www.transparenttextures.com/patterns/paper-fibers.png');
+      color: #4b3621;
+      text-align: center;
+      padding: 40px;
+    }
+    h1 {
+      font-size: 3em;
+      margin-bottom: 0.3em;
+    }
+    .badge {
+      display: inline-block;
+      margin: 20px;
+      padding: 15px;
+      border: 3px dashed #8b5e3c;
+      border-radius: 50%;
+      background-color: #fff8dc;
+      width: 120px;
+      height: 120px;
+      line-height: 90px;
+      font-size: 1.2em;
+      font-weight: bold;
+    }
+    .note {
+      font-style: italic;
+      margin-top: 30px;
+    }
+  </style>
+</head>
+<body>
+  <h1>🪄 Welcome to Alice's Magic Academy 🏰</h1>
+  <p>Where learning spells, math, and time management becomes a magical adventure!</p>
+
+  <div class="badge">✨ Focus</div>
+  <div class="badge">📚 Reading</div>
+  <div class="badge">🧮 Math</div>
+  <div class="badge">🦷 Health</div>
+
+  <p class="note">More spells coming soon...</p>
+</body>
+</html>
