@@ -3,35 +3,53 @@
 <head>
   <meta charset="UTF-8">
   <title>Alice's Magic Academy</title>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@700&family=IM+Fell+English+SC&display=swap" rel="stylesheet">
   <style>
     body {
-      font-family: 'Georgia', serif;
-      background-color: #fdf6e3;
-      background-image: url('https://www.transparenttextures.com/patterns/paper-fibers.png');
-      color: #4b3621;
+      font-family: 'IM Fell English SC', serif;
+      background-color: #f3ecd7;
+      background-image: url('https://www.transparenttextures.com/patterns/old-map.png');
+      color: #3b2f2f;
       text-align: center;
       padding: 40px;
     }
+
     h1 {
+      font-family: 'Cinzel Decorative', cursive;
       font-size: 3em;
-      margin-bottom: 0.3em;
+      color: #6b4226;
+      text-shadow: 2px 2px 4px #dcccb4;
     }
+
     .badge {
       display: inline-block;
       margin: 20px;
-      padding: 15px;
-      border: 3px dashed #8b5e3c;
+      padding: 20px;
+      width: 130px;
+      height: 130px;
       border-radius: 50%;
-      background-color: #fff8dc;
-      width: 120px;
-      height: 120px;
-      line-height: 90px;
-      font-size: 1.2em;
+      border: 4px double #b08968;
+      background: radial-gradient(circle, #fff9ec, #e8d7b9);
+      box-shadow: 2px 2px 6px rgba(0,0,0,0.2);
+      font-size: 1.1em;
       font-weight: bold;
+      line-height: 90px;
+      position: relative;
     }
+
+    .badge::before {
+      content: "✨";
+      font-size: 1.5em;
+      position: absolute;
+      top: 10px;
+      left: 10px;
+    }
+
     .note {
       font-style: italic;
       margin-top: 30px;
+      font-size: 1em;
+      color: #6e5640;
     }
   </style>
 </head>
@@ -39,10 +57,10 @@
   <h1>🪄 Welcome to Alice's Magic Academy 🏰</h1>
   <p>Where learning spells, math, and time management becomes a magical adventure!</p>
 
-  <div class="badge">✨ Focus</div>
-  <div class="badge">📚 Reading</div>
-  <div class="badge">🧮 Math</div>
-  <div class="badge">🦷 Health</div>
+  <div class="badge">Focus</div>
+  <div class="badge">Reading</div>
+  <div class="badge">Math</div>
+  <div class="badge">Health</div>
 
   <p class="note">More spells coming soon...</p>
 </body>
