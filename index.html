@@ -51,6 +51,70 @@
       font-size: 1em;
       color: #6e5640;
     }
+
+    /* To Do List */
+    .todo-section {
+      margin-top: 50px;
+    }
+
+    ul.todo {
+      list-style: none;
+      padding: 0;
+      max-width: 400px;
+      margin: 0 auto;
+    }
+
+    ul.todo li {
+      background: #f9f4e7;
+      margin: 10px 0;
+      padding: 10px 20px;
+      border-left: 6px solid #c2a76d;
+      font-size: 1.1em;
+      text-align: left;
+      cursor: pointer;
+      transition: 0.3s;
+    }
+
+    ul.todo li.done {
+      text-decoration: line-through;
+      color: #aaa;
+      opacity: 0.6;
+    }
+
+    /* Calendar */
+    .calendar {
+      margin: 50px auto;
+      max-width: 600px;
+      background: #fff8e1;
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0 0 10px #d8c9b1;
+    }
+
+    .calendar table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+
+    .calendar th {
+      color: #6b4226;
+      font-size: 1.2em;
+      padding-bottom: 10px;
+    }
+
+    .calendar td {
+      border: 1px solid #e5d4b0;
+      padding: 10px;
+      height: 50px;
+      vertical-align: top;
+      cursor: pointer;
+    }
+
+    .calendar td.checked {
+      background-color: #fcebbd;
+      font-weight: bold;
+      color: #523a28;
+    }
   </style>
 </head>
 <body>
@@ -63,5 +127,59 @@
   <div class="badge">Health</div>
 
   <p class="note">More spells coming soon...</p>
+
+  <div class="todo-section">
+    <h2>✅ Today's Magical Tasks</h2>
+    <ul class="todo">
+      <li onclick="this.classList.toggle('done')">📚 Finish reading chapter</li>
+      <li onclick="this.classList.toggle('done')">🧮 Practice 2 math problems</li>
+      <li onclick="this.classList.toggle('done')">🪥 Brush teeth twice</li>
+      <li onclick="this.classList.toggle('done')">🧘 Focus for 10 minutes</li>
+    </ul>
+  </div>
+
+  <div class="calendar">
+    <h2>📅 Magic Calendar - June</h2>
+    <table>
+      <thead>
+        <tr><th>Sun</th><th>Mon</th><th>Tue</th><th>Wed</th><th>Thu</th><th>Fri</th><th>Sat</th></tr>
+      </thead>
+      <tbody id="calendar-body">
+        <!-- JavaScript will render calendar -->
+      </tbody>
+    </table>
+  </div>
+
+  <script>
+    // 简易日历打卡系统
+    const calendarBody = document.getElementById("calendar-body");
+    const today = new Date();
+    const year = today.getFullYear();
+    const month = today.getMonth(); // 当前月份
+
+    const firstDay = new Date(year, month, 1).getDay();
+    const totalDays = new Date(year, month + 1, 0).getDate();
+
+    let date = 1;
+    for (let i = 0; i < 6; i++) {
+      const row = document.createElement("tr");
+      for (let j = 0; j < 7; j++) {
+        const cell = document.createElement("td");
+        if (i === 0 && j < firstDay) {
+          cell.innerHTML = "";
+        } else if (date > totalDays) {
+          break;
+        } else {
+          cell.innerHTML = date;
+          cell.onclick = function() {
+            this.classList.toggle("checked");
+          }
+          date++;
+        }
+        row.appendChild(cell);
+      }
+      calendarBody.appendChild(row);
+    }
+  </script>
 </body>
 </html>
