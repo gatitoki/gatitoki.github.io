@@ -63,6 +63,20 @@
       100% {background-position: 100% 100%;}
     }
 
+    .flash-effect {
+      position: fixed;
+      width: 100%;
+      height: 100%;
+      background: radial-gradient(ellipse at center, #fff 0%, rgba(255,255,255,0) 80%);
+      animation: flash 1s ease-out;
+      z-index: 10000;
+      pointer-events: none;
+    }
+    @keyframes flash {
+      0% {opacity: 1;}
+      100% {opacity: 0;}
+    }
+
     .badge {
       display: inline-block;
       margin: 20px;
@@ -76,6 +90,7 @@
       font-size: 1.2em;
       font-weight: bold;
       position: relative;
+      cursor: pointer;
     }
     .badge::after {
       content: attr(data-tooltip);
@@ -100,10 +115,17 @@
       background-color: #ddd;
       color: #aaa;
     }
-
-    .todo-section {
-      margin-top: 40px;
+    .badge-info {
+      display: none;
+      max-width: 600px;
+      margin: 20px auto;
+      padding: 15px;
+      background: #f8f0d9;
+      border-radius: 8px;
+      font-size: 1em;
     }
+
+    .todo-section { margin-top: 40px; }
     ul.todo {
       list-style: none;
       padding: 0;
@@ -125,52 +147,19 @@
       opacity: 0.6;
     }
 
-    .calendar {
-      margin: 50px auto;
-      max-width: 600px;
-      background: #fff8e1;
-      padding: 20px;
-      border-radius: 10px;
-      box-shadow: 0 0 10px #d8c9b1;
-    }
-    .calendar table {
-      width: 100%;
-      border-collapse: collapse;
-    }
-    .calendar th {
-      color: #6b4226;
-      font-size: 1.2em;
-      padding-bottom: 10px;
-    }
-    .calendar td {
-      border: 1px solid #e5d4b0;
-      height: 60px;
-      position: relative;
-    }
-    .progress-bar {
-      display: flex;
-      height: 8px;
-      margin-top: 5px;
-    }
-    .progress-bar div {
-      flex: 1;
-      background: #e0e0e0;
-      margin: 0 1px;
-    }
-    .progress-bar div.filled {
-      background: #a67c52;
-    }
-    .progress-bar.full::after {
-      content: "\2705";
-      position: absolute;
-      top: 5px;
-      right: 5px;
-      font-size: 1.2em;
-    }
+    .calendar { margin: 50px auto; max-width: 600px; background: #fff8e1; padding: 20px; border-radius: 10px; box-shadow: 0 0 10px #d8c9b1; }
+    .calendar table { width: 100%; border-collapse: collapse; }
+    .calendar th { color: #6b4226; font-size: 1.2em; padding-bottom: 10px; }
+    .calendar td { border: 1px solid #e5d4b0; height: 60px; position: relative; }
+    .progress-bar { display: flex; height: 8px; margin-top: 5px; }
+    .progress-bar div { flex: 1; background: #e0e0e0; margin: 0 1px; }
+    .progress-bar div.filled { background: #a67c52; }
+    .progress-bar.full::after { content: "\2705"; position: absolute; top: 5px; right: 5px; font-size: 1.2em; }
   </style>
 </head>
 <body>
   <div class="magic-overlay" id="lockscreen">
+    <h1>🪄 Alice's Magic Academy 🏰</h1>
     <h2>🦉 Choose the real magic item</h2>
     <p>Only a true witch can tell what's not from the Muggle world...</p>
     <div class="magic-options">
@@ -184,22 +173,19 @@
   </div>
 
   <div class="glow"></div>
-
   <audio id="bg-music" loop autoplay>
     <source src="https://cdn.pixabay.com/download/audio/2023/03/14/audio_e14c7f7e4d.mp3?filename=magical-theme-141603.mp3" type="audio/mpeg">
-    Your browser does not support the audio element.
   </audio>
 
   <div id="main-content" style="display:none">
     <h1>🪄 Welcome to Alice's Magic Academy 🏰</h1>
-
     <div>
-      <div class="badge" data-tooltip="Focus on your task!">Focus<div class="badge-count">1</div></div>
-      <div class="badge" data-tooltip="Enjoy your reading!">Reading<div class="badge-count">1</div></div>
-      <div class="badge" data-tooltip="Sharpen your math skills!">Math<div class="badge-count">1</div></div>
-      <div class="badge inactive" data-tooltip="Health matters too!">Health<div class="badge-count">0</div></div>
+      <div class="badge" data-tooltip="Focus on your task!" onclick="toggleBadgeInfo()">Focus<div class="badge-count">1</div></div>
+      <div class="badge" data-tooltip="Enjoy your reading!" onclick="toggleBadgeInfo()">Reading<div class="badge-count">1</div></div>
+      <div class="badge" data-tooltip="Sharpen your math skills!" onclick="toggleBadgeInfo()">Math<div class="badge-count">1</div></div>
+      <div class="badge inactive" data-tooltip="Health matters too!" onclick="toggleBadgeInfo()">Health<div class="badge-count">0</div></div>
     </div>
-
+    <div id="badge-info" class="badge-info">🏅 收集徽章的方式：完成任务可获得对应徽章，收集足够数量可以合成更高级魔法徽章！再次点击徽章可隐藏此说明。</div>
     <div class="todo-section">
       <h2>✅ Today's Magical Tasks</h2>
       <ul class="todo" id="todo-list">
@@ -209,27 +195,32 @@
         <li onclick="toggleTask(3)">🧘 10 minutes quiet time</li>
       </ul>
     </div>
-
     <div class="calendar">
       <h2>📅 Magic Calendar - <span id="monthYear"></span></h2>
-      <table>
-        <thead>
-          <tr><th>Sun</th><th>Mon</th><th>Tue</th><th>Wed</th><th>Thu</th><th>Fri</th><th>Sat</th></tr>
-        </thead>
+      <table><thead><tr><th>Sun</th><th>Mon</th><th>Tue</th><th>Wed</th><th>Thu</th><th>Fri</th><th>Sat</th></tr></thead>
         <tbody id="calendar-body"></tbody>
       </table>
     </div>
   </div>
-
   <script>
     function checkItem(emoji) {
       if (emoji === '🪄') {
+        const flash = document.createElement('div');
+        flash.className = 'flash-effect';
+        document.body.appendChild(flash);
+        setTimeout(() => flash.remove(), 1200);
+
         document.getElementById("lockscreen").style.display = "none";
         document.getElementById("main-content").style.display = "block";
         document.getElementById("bg-music").play();
       } else {
         alert("Oops... that's a Muggle item! Try again.");
       }
+    }
+
+    function toggleBadgeInfo() {
+      const info = document.getElementById('badge-info');
+      info.style.display = (info.style.display === 'block') ? 'none' : 'block';
     }
 
     const todoList = document.querySelectorAll('#todo-list li');
@@ -258,7 +249,6 @@
     function generateCalendar() {
       const calendarBody = document.getElementById("calendar-body");
       const monthYear = document.getElementById("monthYear");
-
       const year = today.getFullYear();
       const month = today.getMonth();
       const firstDay = new Date(year, month, 1).getDay();
@@ -278,8 +268,7 @@
           } else {
             const dateKey = `${year}-${String(month+1).padStart(2,'0')}-${String(date).padStart(2,'0')}`;
             cell.setAttribute('data-date', dateKey);
-            cell.innerHTML = `<div>${date}</div><div class='progress-bar'>
-              <div></div><div></div><div></div><div></div></div>`;
+            cell.innerHTML = `<div>${date}</div><div class='progress-bar'><div></div><div></div><div></div><div></div></div>`;
             date++;
           }
           row.appendChild(cell);
