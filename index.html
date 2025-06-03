@@ -255,7 +255,37 @@
         calendarBody.appendChild(row);
       }
     }
+<style>
+  .calendar td {
+    border: 1px solid #e5d4b0;
+    height: 60px;
+    position: relative; /* ✅ 保证 ✅ 能定位在右上角 */
+  }
 
+  .calendar td .progress-bar.full::after {
+    content: "\2705"; /* ✅ */
+    position: absolute;
+    top: 2px;
+    right: 4px;
+    font-size: 1.1em;
+  }
+</style>
+
+<script>
+  function updateProgress() {
+    const done = document.querySelectorAll('#todo-list li.done').length;
+    const todayKey = new Date().toISOString().slice(0, 10);
+    const td = document.querySelector(`[data-date='${todayKey}']`);
+    if (!td) return;
+    const bar = td.querySelector('.progress-bar');
+    const segments = bar.querySelectorAll('div');
+    segments.forEach((seg, i) => {
+      seg.classList.toggle('filled', i < done);
+    });
+    if (done === 4) bar.classList.add('full');
+    else bar.classList.remove('full');
+  }
+</script>
     generateCalendar();
     updateProgress();
   </script>
