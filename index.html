@@ -47,7 +47,8 @@
       grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
       gap: 20px;
       justify-items: center;
-      margin: 40px 0;
+      margin: 40px auto;
+      max-width: 700px;
     }
     .badge {
       width: 100px;
@@ -81,6 +82,81 @@
     }
     .badge:hover::after {
       opacity: 1;
+    }
+    .badge-table {
+      margin: 20px auto;
+      border-collapse: collapse;
+      width: 95%;
+      max-width: 800px;
+      background: #fff8e1;
+      box-shadow: 0 0 10px #d8c9b1;
+      border: 1px solid #d4c49c;
+    }
+    .badge-table th, .badge-table td {
+      border: 1px solid #d4c49c;
+      padding: 10px;
+      font-size: 1em;
+    }
+    .badge-table th {
+      background-color: #f3e5ab;
+    }
+    ul.todo {
+      list-style: none;
+      padding: 0;
+      max-width: 400px;
+      margin: 0 auto;
+    }
+    ul.todo li {
+      background: #f9f4e7;
+      margin: 10px 0;
+      padding: 10px 20px;
+      border-left: 6px solid #c2a76d;
+      font-size: 1.1em;
+      text-align: left;
+      cursor: pointer;
+    }
+    ul.todo li.done {
+      text-decoration: line-through;
+      color: #aaa;
+      opacity: 0.6;
+    }
+    .calendar {
+      margin: 50px auto;
+      max-width: 600px;
+      background: #fff8e1;
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0 0 10px #d8c9b1;
+    }
+    .calendar th {
+      color: #6b4226;
+      font-size: 1.2em;
+      padding-bottom: 10px;
+    }
+    .calendar td {
+      border: 1px solid #e5d4b0;
+      height: 60px;
+      position: relative;
+    }
+    .progress-bar {
+      display: flex;
+      height: 8px;
+      margin-top: 5px;
+    }
+    .progress-bar div {
+      flex: 1;
+      background: #e0e0e0;
+      margin: 0 1px;
+    }
+    .progress-bar div.filled {
+      background: #a67c52;
+    }
+    .progress-bar.full::after {
+      content: "\2705";
+      position: absolute;
+      top: 5px;
+      right: 5px;
+      font-size: 1.2em;
     }
   </style>
 </head>
@@ -118,13 +194,13 @@
 
     <h2>🏅 Magic Badge Gallery</h2>
     <div class="badge-gallery">
-      <div class="badge" data-tooltip="⚡ For lightning-fast task finishes! Complete over 2 hours early.">⚡</div>
-      <div class="badge" data-tooltip="⏳ For time wizards! Perfectly followed weekend schedule.">⏳</div>
-      <div class="badge" data-tooltip="🦷 For shiny teeth and great hygiene every day.">🦷</div>
-      <div class="badge" data-tooltip="📖 Book adventurer! Completed magical reading quests.">📖</div>
-      <div class="badge" data-tooltip="🎯 Focus like a spell! Stayed on task with no distractions.">🎯</div>
-      <div class="badge" data-tooltip="🔢 Puzzle master! Completed math missions.">🔢</div>
-      <div class="badge" data-tooltip="🌀 A mysterious badge awaits...">🌀</div>
+      <div class="badge" data-tooltip="⚡ Symbol of speed and action! Finish tasks >2 hrs early.">⚡</div>
+      <div class="badge" data-tooltip="⏳ Weekend wizard! Master of weekly timing.">⏳</div>
+      <div class="badge" data-tooltip="🦷 Gleaming smile! Earned for daily brushing.">🦷</div>
+      <div class="badge" data-tooltip="📖 Book explorer! Reading quests completed.">📖</div>
+      <div class="badge" data-tooltip="🎯 Focus legend! Zero distraction mode on.">🎯</div>
+      <div class="badge" data-tooltip="🔢 Math magician! Number puzzles conquered.">🔢</div>
+      <div class="badge" data-tooltip="🌀 Mystery... soon to be revealed.">🌀</div>
     </div>
 
     <h2>📜 Badge History Log</h2>
