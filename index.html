@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
+  <meta charset="UTF-8" />
   <title>Alice's Magic Academy</title>
   <link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@700&family=IM+Fell+English+SC&display=swap" rel="stylesheet">
   <style>
@@ -20,27 +20,82 @@
       color: #6b4226;
       text-shadow: 2px 2px 4px #dcccb4;
     }
-    .magic-overlay {
-      position: fixed;
-      top: 0; left: 0;
-      width: 100%; height: 100%;
-      background: rgba(243, 236, 215, 0.95);
-      z-index: 9999;
+    .todo-section h2 {
+      font-size: 1.6em;
+      margin-top: 30px;
+    }
+    ul.todo {
+      list-style: none;
+      padding: 0;
+      max-width: 400px;
+      margin: 0 auto;
+    }
+    ul.todo li {
+      background: #f9f4e7;
+      margin: 10px 0;
+      padding: 10px 20px;
+      border-left: 6px solid #c2a76d;
+      font-size: 1.1em;
+      text-align: left;
+      cursor: pointer;
+    }
+    ul.todo li.done {
+      text-decoration: line-through;
+      color: #aaa;
+      opacity: 0.6;
+    }
+    .calendar {
+      margin: 50px auto;
+      max-width: 700px;
+      background: #fff8e1;
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0 0 10px #d8c9b1;
+      text-align: center;
       display: flex;
       flex-direction: column;
       align-items: center;
+    }
+    .calendar h2 {
+      margin-bottom: 20px;
+    }
+    .calendar table {
+      width: 100%;
+      table-layout: fixed;
+      border-collapse: collapse;
+    }
+    .calendar th, .calendar td {
+      border: 1px solid #e5d4b0;
+      height: 60px;
+      vertical-align: top;
+      padding: 4px;
+      text-align: center;
+    }
+    .calendar td div:first-child {
+      height: 20px;
+      display: flex;
       justify-content: center;
+      align-items: center;
     }
-    .magic-options button {
-      font-size: 2em;
-      margin: 10px;
-      padding: 10px;
-      border: none;
-      background: none;
-      cursor: pointer;
+    .progress-bar {
+      display: flex;
+      height: 8px;
+      margin-top: 5px;
     }
-    .magic-options button.magic-item {
-      font-size: 2.4em;
+    .progress-bar div {
+      flex: 1;
+      background: #e0e0e0;
+      margin: 0 1px;
+    }
+    .progress-bar div.filled {
+      background: #a67c52;
+    }
+    .progress-bar.full::after {
+      content: "✅";
+      position: absolute;
+      top: 5px;
+      right: 5px;
+      font-size: 1.2em;
     }
     .badge-gallery {
       display: grid;
@@ -100,172 +155,49 @@
     .badge-table th {
       background-color: #f3e5ab;
     }
-    ul.todo {
-      list-style: none;
-      padding: 0;
-      max-width: 400px;
-      margin: 0 auto;
-    }
-    ul.todo li {
-      background: #f9f4e7;
-      margin: 10px 0;
-      padding: 10px 20px;
-      border-left: 6px solid #c2a76d;
-      font-size: 1.1em;
-      text-align: left;
-      cursor: pointer;
-    }
-    ul.todo li.done {
-      text-decoration: line-through;
-      color: #aaa;
-      opacity: 0.6;
-    }
-    .calendar {
-  margin: 50px auto;
-  max-width: 600px;
-  background: #fff8e1;
-  padding: 20px;
-  border-radius: 10px;
-  box-shadow: 0 0 10px #d8c9b1;
-  text-align: center;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-}
-.calendar table {
-  border-collapse: collapse;
-  width: 100%;
-  max-width: 100%;
-}
-.calendar th, .calendar td {
-  text-align: center;
-.calendar h2 {
-  text-align: center;
-  margin-bottom: 20px;
-}
-
-.calendar table {
-  width: 100%;
-  table-layout: fixed;
-  border-collapse: collapse;
-  margin: 0 auto;
-}
-
-.calendar th, .calendar td {
-  text-align: center;
-  vertical-align: top;
-
-    }
-    .progress-bar {
-      display: flex;
-      height: 8px;
-      margin-top: 5px;
-    }
-    .progress-bar div {
-      flex: 1;
-      background: #e0e0e0;
-      margin: 0 1px;
-    }
-    .progress-bar div.filled {
-      background: #a67c52;
-    }
-    .progress-bar.full::after {
-      content: "\2705";
-      position: absolute;
-      top: 5px;
-      right: 5px;
-      font-size: 1.2em;
-    }
   </style>
 </head>
 <body>
-  <div class="magic-overlay" id="lockscreen">
-    <h1>🪄 Alice's Magic Academy 🏰</h1>
-    <h2>🦉 Choose the real magic item</h2>
-    <p>Only a true witch can tell what's not from the Muggle world...</p>
-    <div class="magic-options" id="magic-options"></div>
+  <h1>🪄 Welcome to Alice's Magic Academy 🏰</h1>
+
+  <div class="todo-section">
+    <h2>✅ Today's Magical Tasks</h2>
+    <ul class="todo" id="todo-list">
+      <li onclick="toggleTask(0)">📚 Read one chapter</li>
+      <li onclick="toggleTask(1)">🧮 Solve 2 math problems</li>
+      <li onclick="toggleTask(2)">🪥 Brush teeth twice</li>
+      <li onclick="toggleTask(3)">🧘 10 minutes quiet time</li>
+    </ul>
   </div>
 
-  <audio id="bg-music" loop autoplay>
-    <source src="https://cdn.pixabay.com/download/audio/2023/03/14/audio_e14c7f7e4d.mp3?filename=magical-theme-141603.mp3" type="audio/mpeg">
-  </audio>
-
-  <div id="main-content" style="display:none">
-    <h1>🪄 Welcome to Alice's Magic Academy 🏰</h1>
-
-    <div class="todo-section">
-      <h2>✅ Today's Magical Tasks</h2>
-      <ul class="todo" id="todo-list">
-        <li onclick="toggleTask(0)">📚 Read one chapter</li>
-        <li onclick="toggleTask(1)">🧮 Solve 2 math problems</li>
-        <li onclick="toggleTask(2)">🪥 Brush teeth twice</li>
-        <li onclick="toggleTask(3)">🧘 10 minutes quiet time</li>
-      </ul>
-    </div>
-
-    <div class="calendar">
-      <h2>📅 Magic Calendar - <span id="monthYear"></span></h2>
-      <table><thead><tr><th>Sun</th><th>Mon</th><th>Tue</th><th>Wed</th><th>Thu</th><th>Fri</th><th>Sat</th></tr></thead>
-        <tbody id="calendar-body"></tbody>
-      </table>
-    </div>
-
-    <h2>🏅 Magic Badge Gallery</h2>
-    <div class="badge-gallery">
-      <div class="badge" data-tooltip="⚡ Symbol of speed and action! Finish tasks >2 hrs early.">⚡</div>
-      <div class="badge" data-tooltip="⏳ Weekend wizard! Master of weekly timing.">⏳</div>
-      <div class="badge" data-tooltip="🦷 Gleaming smile! Earned for daily brushing.">🦷</div>
-      <div class="badge" data-tooltip="📖 Book explorer! Reading quests completed.">📖</div>
-      <div class="badge" data-tooltip="🎯 Focus legend! Zero distraction mode on.">🎯</div>
-      <div class="badge" data-tooltip="🔢 Math magician! Number puzzles conquered.">🔢</div>
-      <div class="badge" data-tooltip="🌀 Mystery... soon to be revealed.">🌀</div>
-    </div>
-
-    <h2>📜 Badge History Log</h2>
-    <table class="badge-table">
-      <thead><tr><th>Badge</th><th>Description</th><th>Change</th><th>Date</th><th>Reason</th><th>Total</th></tr></thead>
-      <tbody id="badge-log">
-        <tr><td>⚡</td><td>Lightning-fast task</td><td>+1</td><td>2025-06-03</td><td>Finished all tasks early</td><td>1</td></tr>
-        <tr><td>🦷</td><td>Dental Hero</td><td>+1</td><td>2025-06-02</td><td>Brushed morning & night</td><td>1</td></tr>
-      </tbody>
+  <div class="calendar">
+    <h2>📅 Magic Calendar - <span id="monthYear"></span></h2>
+    <table><thead><tr><th>Sun</th><th>Mon</th><th>Tue</th><th>Wed</th><th>Thu</th><th>Fri</th><th>Sat</th></tr></thead>
+      <tbody id="calendar-body"></tbody>
     </table>
   </div>
 
+  <h2>🏅 Magic Badge Gallery</h2>
+  <div class="badge-gallery">
+    <div class="badge" data-tooltip="⚡ Finish tasks >2 hrs early.">⚡</div>
+    <div class="badge" data-tooltip="⏳ Weekend wizard! Master of weekly timing.">⏳</div>
+    <div class="badge" data-tooltip="🦷 Daily brushing success!">🦷</div>
+    <div class="badge" data-tooltip="📖 Book explorer!">📖</div>
+    <div class="badge" data-tooltip="🎯 Focus legend!">🎯</div>
+    <div class="badge" data-tooltip="🔢 Math magician!">🔢</div>
+    <div class="badge" data-tooltip="🌀 Mystery... soon to be revealed.">🌀</div>
+  </div>
+
+  <h2>📜 Badge History Log</h2>
+  <table class="badge-table">
+    <thead><tr><th>Badge</th><th>Description</th><th>Change</th><th>Date</th><th>Reason</th><th>Total</th></tr></thead>
+    <tbody id="badge-log">
+      <tr><td>⚡</td><td>Lightning-fast task</td><td>+1</td><td>2025-06-03</td><td>Finished all tasks early</td><td>1</td></tr>
+      <tr><td>🦷</td><td>Dental Hero</td><td>+1</td><td>2025-06-02</td><td>Brushed morning & night</td><td>1</td></tr>
+    </tbody>
+  </table>
+
   <script>
-    const magicItem = '🪄';
-    const muggleItems = ['📱', '💻', '📺', '🍫', '👜', '🧃', '🎧', '🧻'];
-
-    function shuffle(array) {
-      for (let i = array.length - 1; i > 0; i--) {
-        const j = Math.floor(Math.random() * (i + 1));
-        [array[i], array[j]] = [array[j], array[i]];
-      }
-      return array;
-    }
-
-    function generateMagicOptions() {
-      const options = [...shuffle(muggleItems).slice(0, 5), magicItem];
-      const shuffled = shuffle(options);
-      const container = document.getElementById('magic-options');
-      shuffled.forEach(emoji => {
-        const btn = document.createElement('button');
-        btn.innerText = emoji;
-        if (emoji === magicItem) btn.classList.add('magic-item');
-        btn.onclick = () => checkItem(emoji);
-        container.appendChild(btn);
-      });
-    }
-
-    function checkItem(emoji) {
-      if (emoji === magicItem) {
-        document.getElementById("lockscreen").style.display = "none";
-        document.getElementById("main-content").style.display = "block";
-        document.getElementById("bg-music").play();
-      } else {
-        alert("Oops... that's a Muggle item! Try again.");
-      }
-    }
-
     const todoList = document.querySelectorAll('#todo-list li');
     const maxTasks = 4;
     const today = new Date();
@@ -311,7 +243,11 @@
           } else {
             const dateKey = `${year}-${String(month+1).padStart(2,'0')}-${String(date).padStart(2,'0')}`;
             cell.setAttribute('data-date', dateKey);
-            cell.innerHTML = `<div>${date}</div><div class='progress-bar'><div></div><div></div><div></div><div></div></div>`;
+            cell.innerHTML = `
+              <div>${date}</div>
+              <div class='progress-bar'>
+                <div></div><div></div><div></div><div></div>
+              </div>`;
             date++;
           }
           row.appendChild(cell);
@@ -320,7 +256,6 @@
       }
     }
 
-    generateMagicOptions();
     generateCalendar();
     updateProgress();
   </script>
