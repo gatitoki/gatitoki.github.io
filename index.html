@@ -42,84 +42,45 @@
     .magic-options button.magic-item {
       font-size: 2.4em;
     }
-    .badge-table {
-      margin: 20px auto;
-      border-collapse: collapse;
-      width: 95%;
-      max-width: 800px;
-      background: #fff8e1;
-      box-shadow: 0 0 10px #d8c9b1;
+    .badge-gallery {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+      gap: 20px;
+      justify-items: center;
+      margin: 40px 0;
     }
-    .badge-table th, .badge-table td {
-      border: 1px solid #d4c49c;
-      padding: 10px;
-      font-size: 1em;
-    }
-    .badge-table th {
-      background-color: #f3e5ab;
-    }
-    .todo-section { margin-top: 40px; }
-    ul.todo {
-      list-style: none;
-      padding: 0;
-      max-width: 400px;
-      margin: 0 auto;
-    }
-    ul.todo li {
-      background: #f9f4e7;
-      margin: 10px 0;
-      padding: 10px 20px;
-      border-left: 6px solid #c2a76d;
-      font-size: 1.1em;
-      text-align: left;
-      cursor: pointer;
-    }
-    ul.todo li.done {
-      text-decoration: line-through;
-      color: #aaa;
-      opacity: 0.6;
-    }
-    .calendar {
-      margin: 50px auto;
-      max-width: 600px;
-      background: #fff8e1;
-      padding: 20px;
-      border-radius: 10px;
-      box-shadow: 0 0 10px #d8c9b1;
-    }
-    .calendar table {
-      width: 100%;
-      border-collapse: collapse;
-    }
-    .calendar th {
-      color: #6b4226;
-      font-size: 1.2em;
-      padding-bottom: 10px;
-    }
-    .calendar td {
-      border: 1px solid #e5d4b0;
-      height: 60px;
-      position: relative;
-    }
-    .progress-bar {
+    .badge {
+      width: 100px;
+      height: 100px;
+      border-radius: 50%;
+      background-color: #f5f0db;
+      border: 3px solid #c2a76d;
       display: flex;
-      height: 8px;
-      margin-top: 5px;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+      font-size: 2em;
+      cursor: help;
     }
-    .progress-bar div {
-      flex: 1;
-      background: #e0e0e0;
-      margin: 0 1px;
-    }
-    .progress-bar div.filled {
-      background: #a67c52;
-    }
-    .progress-bar.full::after {
-      content: "\2705";
+    .badge::after {
+      content: attr(data-tooltip);
       position: absolute;
-      top: 5px;
-      right: 5px;
-      font-size: 1.2em;
+      bottom: -60px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: #fff8e1;
+      border: 1px solid #d4c49c;
+      padding: 5px 10px;
+      font-size: 0.9em;
+      white-space: pre-wrap;
+      box-shadow: 0 0 5px rgba(0,0,0,0.2);
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.3s;
+      width: 200px;
+    }
+    .badge:hover::after {
+      opacity: 1;
     }
   </style>
 </head>
@@ -155,19 +116,23 @@
       </table>
     </div>
 
-    <h2>🏅 Magic Badge Record</h2>
+    <h2>🏅 Magic Badge Gallery</h2>
+    <div class="badge-gallery">
+      <div class="badge" data-tooltip="⚡ For lightning-fast task finishes! Complete over 2 hours early.">⚡</div>
+      <div class="badge" data-tooltip="⏳ For time wizards! Perfectly followed weekend schedule.">⏳</div>
+      <div class="badge" data-tooltip="🦷 For shiny teeth and great hygiene every day.">🦷</div>
+      <div class="badge" data-tooltip="📖 Book adventurer! Completed magical reading quests.">📖</div>
+      <div class="badge" data-tooltip="🎯 Focus like a spell! Stayed on task with no distractions.">🎯</div>
+      <div class="badge" data-tooltip="🔢 Puzzle master! Completed math missions.">🔢</div>
+      <div class="badge" data-tooltip="🌀 A mysterious badge awaits...">🌀</div>
+    </div>
+
+    <h2>📜 Badge History Log</h2>
     <table class="badge-table">
-      <thead>
-        <tr><th>Badge Name</th><th>Description</th><th>Change</th><th>Date</th><th>Reason</th><th>Total</th></tr>
-      </thead>
+      <thead><tr><th>Badge</th><th>Description</th><th>Change</th><th>Date</th><th>Reason</th><th>Total</th></tr></thead>
       <tbody id="badge-log">
-        <tr><td>⚡ Lightning Bolt</td><td>Earned by finishing tasks 2+ hours early!</td><td>0</td><td>--</td><td>--</td><td>0</td></tr>
-        <tr><td>⏳ Time Tamer</td><td>Master of weekend plans and schedules.</td><td>0</td><td>--</td><td>--</td><td>0</td></tr>
-        <tr><td>🦷 Tooth Guardian</td><td>For heroic brushing and braces duty!</td><td>0</td><td>--</td><td>--</td><td>0</td></tr>
-        <tr><td>📖 Book Wanderer</td><td>Magical journeys through every book!</td><td>0</td><td>--</td><td>--</td><td>0</td></tr>
-        <tr><td>🎯 Focus Flame</td><td>Stays sharp and blocks out distractions.</td><td>0</td><td>--</td><td>--</td><td>0</td></tr>
-        <tr><td>🔢 Math Mage</td><td>Solves puzzles and numbers with power.</td><td>0</td><td>--</td><td>--</td><td>0</td></tr>
-        <tr><td>🌀 Coming Soon</td><td>Another magical badge awaits...</td><td>--</td><td>--</td><td>--</td><td>--</td></tr>
+        <tr><td>⚡</td><td>Lightning-fast task</td><td>+1</td><td>2025-06-03</td><td>Finished all tasks early</td><td>1</td></tr>
+        <tr><td>🦷</td><td>Dental Hero</td><td>+1</td><td>2025-06-02</td><td>Brushed morning & night</td><td>1</td></tr>
       </tbody>
     </table>
   </div>
