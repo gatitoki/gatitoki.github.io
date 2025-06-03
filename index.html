@@ -116,6 +116,7 @@
       justify-content: center;
       position: relative;
       font-size: 2em;
+      flex-direction: column;
       cursor: help;
     }
     .badge::after {
@@ -137,6 +138,18 @@
     }
     .badge:hover::after {
       opacity: 1;
+    }
+    .badge-count {
+      font-size: 0.8em;
+      margin-top: 4px;
+      color: #333;
+    }
+    .badge[data-owned="false"] {
+      filter: grayscale(100%);
+      opacity: 0.4;
+    }
+    .badge[data-owned="false"] .badge-count {
+      color: #888;
     }
     .badge-table {
       margin: 20px auto;
@@ -256,8 +269,32 @@
       }
     }
 
+    function updateBadgeCounts() {
+      const badgeCounts = {};
+      document.querySelectorAll('#badge-log tr').forEach(row => {
+        const badge = row.cells[0]?.innerText;
+        const total = parseInt(row.cells[5]?.innerText);
+        if (badge) badgeCounts[badge] = total;
+      });
+
+      document.querySelectorAll('.badge-gallery .badge').forEach(div => {
+        const emoji = div.innerText.trim()[0];
+        const count = badgeCounts[emoji] || 0;
+        div.setAttribute("data-owned", count > 0);
+
+        let countDiv = div.querySelector('.badge-count');
+        if (!countDiv) {
+          countDiv = document.createElement('div');
+          countDiv.className = 'badge-count';
+          div.appendChild(countDiv);
+        }
+        countDiv.textContent = `x${count}`;
+      });
+    }
+
     generateCalendar();
     updateProgress();
+    updateBadgeCounts();
   </script>
 </body>
 </html>
