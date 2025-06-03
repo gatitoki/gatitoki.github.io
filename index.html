@@ -62,10 +62,114 @@
       0% {background-position: 0 0;}
       100% {background-position: 100% 100%;}
     }
+
+    .badge {
+      display: inline-block;
+      margin: 20px;
+      padding: 15px;
+      border: 3px dashed #8b5e3c;
+      border-radius: 50%;
+      background-color: #fff8dc;
+      width: 120px;
+      height: 120px;
+      line-height: 90px;
+      font-size: 1.2em;
+      font-weight: bold;
+      position: relative;
+    }
+    .badge::after {
+      content: attr(data-tooltip);
+      position: absolute;
+      bottom: -30px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: #f9f1d4;
+      padding: 4px 8px;
+      font-size: 0.8em;
+      border-radius: 6px;
+      display: none;
+    }
+    .badge:hover::after {
+      display: block;
+    }
+    .badge-count {
+      font-size: 0.9em;
+      color: #555;
+    }
+    .badge.inactive {
+      background-color: #ddd;
+      color: #aaa;
+    }
+
+    .todo-section {
+      margin-top: 40px;
+    }
+    ul.todo {
+      list-style: none;
+      padding: 0;
+      max-width: 400px;
+      margin: 0 auto;
+    }
+    ul.todo li {
+      background: #f9f4e7;
+      margin: 10px 0;
+      padding: 10px 20px;
+      border-left: 6px solid #c2a76d;
+      font-size: 1.1em;
+      text-align: left;
+      cursor: pointer;
+    }
+    ul.todo li.done {
+      text-decoration: line-through;
+      color: #aaa;
+      opacity: 0.6;
+    }
+
+    .calendar {
+      margin: 50px auto;
+      max-width: 600px;
+      background: #fff8e1;
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0 0 10px #d8c9b1;
+    }
+    .calendar table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+    .calendar th {
+      color: #6b4226;
+      font-size: 1.2em;
+      padding-bottom: 10px;
+    }
+    .calendar td {
+      border: 1px solid #e5d4b0;
+      height: 60px;
+      position: relative;
+    }
+    .progress-bar {
+      display: flex;
+      height: 8px;
+      margin-top: 5px;
+    }
+    .progress-bar div {
+      flex: 1;
+      background: #e0e0e0;
+      margin: 0 1px;
+    }
+    .progress-bar div.filled {
+      background: #a67c52;
+    }
+    .progress-bar.full::after {
+      content: "\2705";
+      position: absolute;
+      top: 5px;
+      right: 5px;
+      font-size: 1.2em;
+    }
   </style>
 </head>
 <body>
-  <!-- Emoji Magic Gate -->
   <div class="magic-overlay" id="lockscreen">
     <h2>🦉 Choose the real magic item</h2>
     <p>Only a true witch can tell what's not from the Muggle world...</p>
@@ -81,17 +185,40 @@
 
   <div class="glow"></div>
 
-  <!-- Background music -->
   <audio id="bg-music" loop autoplay>
     <source src="https://cdn.pixabay.com/download/audio/2023/03/14/audio_e14c7f7e4d.mp3?filename=magical-theme-141603.mp3" type="audio/mpeg">
     Your browser does not support the audio element.
   </audio>
 
-  <!-- Real content will appear after unlock -->
   <div id="main-content" style="display:none">
     <h1>🪄 Welcome to Alice's Magic Academy 🏰</h1>
-    <p style="margin-top:40px">✨ You chose wisely. The gate is now open! ✨</p>
-    <!-- [Insert your original content like badges, To Do List, and Calendar here] -->
+
+    <div>
+      <div class="badge" data-tooltip="Focus on your task!">Focus<div class="badge-count">1</div></div>
+      <div class="badge" data-tooltip="Enjoy your reading!">Reading<div class="badge-count">1</div></div>
+      <div class="badge" data-tooltip="Sharpen your math skills!">Math<div class="badge-count">1</div></div>
+      <div class="badge inactive" data-tooltip="Health matters too!">Health<div class="badge-count">0</div></div>
+    </div>
+
+    <div class="todo-section">
+      <h2>✅ Today's Magical Tasks</h2>
+      <ul class="todo" id="todo-list">
+        <li onclick="toggleTask(0)">📚 Read one chapter</li>
+        <li onclick="toggleTask(1)">🧮 Solve 2 math problems</li>
+        <li onclick="toggleTask(2)">🪥 Brush teeth twice</li>
+        <li onclick="toggleTask(3)">🧘 10 minutes quiet time</li>
+      </ul>
+    </div>
+
+    <div class="calendar">
+      <h2>📅 Magic Calendar - <span id="monthYear"></span></h2>
+      <table>
+        <thead>
+          <tr><th>Sun</th><th>Mon</th><th>Tue</th><th>Wed</th><th>Thu</th><th>Fri</th><th>Sat</th></tr>
+        </thead>
+        <tbody id="calendar-body"></tbody>
+      </table>
+    </div>
   </div>
 
   <script>
@@ -104,6 +231,65 @@
         alert("Oops... that's a Muggle item! Try again.");
       }
     }
+
+    const todoList = document.querySelectorAll('#todo-list li');
+    const maxTasks = 4;
+    const today = new Date();
+    const todayKey = today.toISOString().slice(0, 10);
+
+    function toggleTask(index) {
+      todoList[index].classList.toggle('done');
+      updateProgress();
+    }
+
+    function updateProgress() {
+      const done = document.querySelectorAll('#todo-list li.done').length;
+      const td = document.querySelector(`[data-date='${todayKey}']`);
+      if (!td) return;
+      const bar = td.querySelector('.progress-bar');
+      const segments = bar.querySelectorAll('div');
+      segments.forEach((seg, i) => {
+        seg.classList.toggle('filled', i < done);
+      });
+      if (done === maxTasks) bar.classList.add('full');
+      else bar.classList.remove('full');
+    }
+
+    function generateCalendar() {
+      const calendarBody = document.getElementById("calendar-body");
+      const monthYear = document.getElementById("monthYear");
+
+      const year = today.getFullYear();
+      const month = today.getMonth();
+      const firstDay = new Date(year, month, 1).getDay();
+      const totalDays = new Date(year, month + 1, 0).getDate();
+
+      monthYear.innerText = `${today.toLocaleString('default', { month: 'long' })} ${year}`;
+
+      let date = 1;
+      for (let i = 0; i < 6; i++) {
+        const row = document.createElement("tr");
+        for (let j = 0; j < 7; j++) {
+          const cell = document.createElement("td");
+          if (i === 0 && j < firstDay) {
+            cell.innerHTML = "";
+          } else if (date > totalDays) {
+            break;
+          } else {
+            const dateKey = `${year}-${String(month+1).padStart(2,'0')}-${String(date).padStart(2,'0')}`;
+            cell.setAttribute('data-date', dateKey);
+            cell.innerHTML = `<div>${date}</div><div class='progress-bar'>
+              <div></div><div></div><div></div><div></div></div>`;
+            date++;
+          }
+          row.appendChild(cell);
+        }
+        calendarBody.appendChild(row);
+      }
+    }
+
+    generateCalendar();
+    updateProgress();
   </script>
 </body>
 </html>
