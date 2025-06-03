@@ -121,22 +121,25 @@
       opacity: 0.6;
     }
     .calendar {
-      margin: 50px auto;
-      max-width: 600px;
-      background: #fff8e1;
-      padding: 20px;
-      border-radius: 10px;
-      box-shadow: 0 0 10px #d8c9b1;
-    }
-    .calendar th {
-      color: #6b4226;
-      font-size: 1.2em;
-      padding-bottom: 10px;
-    }
-    .calendar td {
-      border: 1px solid #e5d4b0;
-      height: 60px;
-      position: relative;
+  margin: 50px auto;
+  max-width: 600px;
+  background: #fff8e1;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 0 10px #d8c9b1;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.calendar table {
+  border-collapse: collapse;
+  width: 100%;
+  max-width: 100%;
+}
+.calendar th, .calendar td {
+  text-align: center;
+}
     }
     .progress-bar {
       display: flex;
